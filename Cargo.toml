@@ -1,0 +1,50 @@
+[package]
+name = "ferrum"
+publish = false
+build = "build.rs"
+edition = "2021"
+exclude = ["artifacts.json"]
+
+[lib]
+path = "src-native/lib.rs"
+crate-type = ["cdylib"]
+
+[build-dependencies]
+napi-build = "2.0"
+
+[dependencies]
+napi = { version = "2.13", features = [
+	"serde-json",
+	"napi6",
+	"tokio_rt",
+	"async",
+] }
+napi-derive = "2.15"
+dirs = "5.0"
+serde = { version = "1.0", features = ["derive"] }
+id3 = "1.8"
+mp3-metadata = "0.3"
+mp4ameta = "0.11"
+lofty = "0.21"
+serde_json = "1.0"
+nanoid = "0.4"
+alphanumeric-sort = "1.5"
+linked-hash-map = { version = "0.5", features = ["serde_impl"] }
+atomicwrites = "0.4"
+trash = "5.1"
+plist = "1.5"
+tokio = { version = "1.28", features = ["macros"] }
+time = { version = "0.3", features = ["serde", "serde-well-known"] }
+url = "2.4"
+unicode-normalization = "0.1"
+rayon = "1.8"
+photon-rs = "0.3.2"
+lazy_static = "1.5.0"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
