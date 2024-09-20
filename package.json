@@ -7,11 +7,8 @@
 	"version": "0.18.0",
 	"repository": "https://github.com/probablykasper/ferrum",
 	"scripts": {
-		"dev": "npm run napi:dev && vite",
-		"dev-release": "npm run napi && vite",
-		"napi": "napi build ferrum-addon --dts addon.d.ts --release",
-		"napi:dev": "napi build ferrum-addon --dts addon.d.ts",
-		"build": "npm run napi && npm run build:web && electron-builder",
+		"dev": "vite dev",
+		"build": "npm run build:web && electron-builder",
 		"build:web": "vite build",
 		"electron-builder": "electron-builder",
 		"preview": "LOCAL_DATA=./src-native/appdata/local_data LIBRARY=./src-native/appdata/Library ./build/app/mac/Ferrum.app/Contents/MacOS/Ferrum",
@@ -59,11 +56,7 @@
 		}
 	},
 	"main": "build/electron/main.js",
-	"napi": {
-		"name": "addon"
-	},
 	"devDependencies": {
-		"@napi-rs/cli": "^2.18.4",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@tailwindcss/vite": "4.0.0-alpha.23",
 		"@tsconfig/svelte": "^5.0.4",
