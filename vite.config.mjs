@@ -2,7 +2,6 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import electron from './vite-plugin-electron/src/index'
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
 	base: '/',
@@ -21,7 +20,6 @@ export default defineConfig({
 		svelte({
 			preprocess: vitePreprocess(),
 		}),
-		tailwindcss(),
 		electron({
 			entry: './src/electron/main.ts',
 			// onstart({ startup }) {
