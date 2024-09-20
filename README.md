@@ -20,23 +20,8 @@
 2. Install Rust
 3. Run `npm install`
 
-### Structure
-
-App (Electron)
-- Source: `src/electron.js` and `src/electron/`
-- Build output: `build/app/`
-
-Web (the frontend)
-- Source code: napi and `src/`
-- Build output: `build/web/`
-
-Napi (the native Rust backend)
-- Source code: `src-native/`
-- Build output: `ferrum-addon/addon.node`
-
 ### Commands
 - `npm run dev`: Start app in dev mode
-- `npm run dev-release`: Start app in dev mode (optimized)
 - `npm run build`: Build
 - `npm run lint`: Lint
 - `npm run format`: Format

@@ -8,7 +8,6 @@ import type {
 	dialog,
 } from 'electron'
 import { ipcMain as electronIpcMain } from 'electron'
-import type { Track, TrackID } from '../../ferrum-addon'
 
 type OptionalPromise<T> = T | Promise<T>
 type InputMap = {
@@ -123,17 +122,6 @@ type Events = {
 	Forward: () => void
 	'Select Next List': () => void
 	'Select Previous List': () => void
-
-	'context.playlist.edit': (id: TrackID) => void
-	'context.playlist.delete': (id: TrackID) => void
-	'context.Remove from Queue': () => void
-	'context.Play Next': (ids: TrackID[]) => void
-	'context.Add to Queue': (ids: TrackID[]) => void
-	'context.Add to Playlist': (id: string, trackIds: TrackID[]) => void
-	'context.revealTrackFile': (id: TrackID) => void
-	'context.Get Info': (allIds: TrackID[], selectedIndex: number) => void
-	'context.Remove from Playlist': (selectedIndexes: number[]) => void
-	'context.toggle_column': (item: { id: string; label: string; checked: boolean }) => void
 }
 
 export type ShowTrackMenuOptions = {
@@ -150,10 +138,6 @@ type Commands = {
 		attached: boolean,
 		options: Parameters<typeof dialog.showMessageBox>[0],
 	) => ReturnType<typeof dialog.showMessageBox>
-	showOpenDialog: (
-		attached: boolean,
-		options: Parameters<typeof dialog.showOpenDialog>[0],
-	) => ReturnType<typeof dialog.showOpenDialog>
 	revealTrackFile: (...paths: string[]) => void
 	showTrackMenu: (options: ShowTrackMenuOptions) => void
 	showTracklistMenu: (options: { id: string; isFolder: boolean; isRoot: boolean }) => void

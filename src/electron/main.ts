@@ -1,6 +1,5 @@
 import { app, ipcMain, session, BrowserWindow, dialog, protocol, net } from 'electron'
 import is from './is'
-import addon from '../../ferrum-addon'
 
 if (is.dev) app.setName('Ferrum Dev')
 
@@ -67,26 +66,6 @@ app.whenReady().then(async () => {
 	if (!is.dev) {
 		await init_media_keys(main_window)
 	}
-
-	protocol.registerFileProtocol('track', (request, callback) => {
-		const url = decodeURI(request.url)
-		const path = url.substring(6)
-		callback(path)
-	})
-
-	protocol.registerBufferProtocol('trackimg', (request, callback) => {
-		const url = decodeURI(request.url)
-		const path = url.substring(9)
-		addon
-			.read_cache_cover_async(path, 0)
-			.then((buffer) => {
-				callback(Buffer.from(buffer))
-			})
-			.catch((error) => {
-				callback({ error: 500 })
-				console.log('Could not read cover', error)
-			})
-	})
 
 	session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 		callback({
