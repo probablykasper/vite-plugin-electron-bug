@@ -90,46 +90,6 @@ interface TypedIpcRenderer<IpcEvents extends InputMap, IpcCommands extends Input
 type Events = {
 	readyToQuit: () => void
 	gonnaQuit: () => void
-
-	newPlaylist: (id: string, isFolder: boolean) => void
-	itunesImport: () => void
-	import: () => void
-	filter: () => void
-
-	playPause: () => void
-	Next: () => void
-	Previous: () => void
-	Stop: () => void
-	Shuffle: () => void
-	Repeat: () => void
-	volumeUp: () => void
-	volumeDown: () => void
-	'Show Queue': () => void
-	ToggleQuickNav: () => void
-	'Group Album Tracks': (checked: boolean) => void
-
-	selectedTracksAction: (
-		action:
-			| 'Play Next'
-			| 'Add to Queue'
-			| 'Get Info'
-			| 'revealTrackFile'
-			| 'Remove from Playlist'
-			| 'Delete from Library',
-	) => void
-
-	Back: () => void
-	Forward: () => void
-	'Select Next List': () => void
-	'Select Previous List': () => void
-}
-
-export type ShowTrackMenuOptions = {
-	allIds: string[]
-	selectedIndexes: number[]
-	playlist?: { editable: boolean }
-	lists: { label: string; enabled: boolean; id: string }[]
-	queue: boolean
 }
 
 type Commands = {
@@ -138,15 +98,6 @@ type Commands = {
 		attached: boolean,
 		options: Parameters<typeof dialog.showMessageBox>[0],
 	) => ReturnType<typeof dialog.showMessageBox>
-	revealTrackFile: (...paths: string[]) => void
-	showTrackMenu: (options: ShowTrackMenuOptions) => void
-	showTracklistMenu: (options: { id: string; isFolder: boolean; isRoot: boolean }) => void
-	show_columns_menu: (options: { menu: Electron.MenuItemConstructorOptions[] }) => void
-	volume_change: (up: boolean) => void
-
-	'update:Shuffle': (checked: boolean) => void
-	'update:Repeat': (checked: boolean) => void
-	'update:Show Queue': (checked: boolean) => void
 }
 
 export type IpcMain = TypedIpcMain<Events, Commands>

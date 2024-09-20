@@ -2,12 +2,12 @@
 	import { ipc_renderer } from '@/lib/window'
 
 	ipc_renderer.invoke('app_loaded').catch(() => {
-		ipc_renderer.invoke('showMessageBox', false, {
-			type: 'error',
-			message: 'Failed to signal app loading',
-			detail: 'Graceful shutdown will not be possible.',
-		})
+		console.error('Could not invoke app_loaded')
+	})
+
+	ipc_renderer.on('gonnaQuit', async function () {
+		ipc_renderer.send('readyToQuit')
 	})
 </script>
 
-<p>Hello world</p>
+<p style="color: red; margin-top: 50px;">Hello world</p>

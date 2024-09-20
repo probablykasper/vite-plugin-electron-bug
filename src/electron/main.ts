@@ -4,7 +4,6 @@ import is from './is'
 if (is.dev) app.setName('Ferrum Dev')
 
 import { init_media_keys } from './shortcuts'
-import('./ipc')
 import path from 'path'
 import url from 'url'
 import { ipc_main } from './typed_ipc'
@@ -150,6 +149,4 @@ app.whenReady().then(async () => {
 			main_window.show()
 		}
 	})
-
-	init_menu_bar(app, main_window)
 })
