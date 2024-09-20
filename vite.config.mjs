@@ -23,7 +23,7 @@ export default defineConfig({
 		}),
 		tailwindcss(),
 		electron({
-			entry: ['./src/electron/main.ts', './src/electron/preload.ts'],
+			entry: './src/electron/main.ts',
 			// onstart({ startup }) {
 			// 	if (process.electronApp) {
 			// 		process.kill(process.electronApp.pid, 'SIGTERM')

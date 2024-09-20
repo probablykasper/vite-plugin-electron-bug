@@ -1,42 +1,16 @@
-import { app, ipcMain, session, BrowserWindow, dialog, protocol, net } from 'electron'
-import is from './is'
-
-if (is.dev) app.setName('Ferrum Dev')
-
-import { init_media_keys } from './shortcuts'
+import { app, ipcMain, session, BrowserWindow, protocol, net } from 'electron'
 import path from 'path'
 import url from 'url'
 import { ipc_main } from './typed_ipc'
 
-async function err_handler(msg: string, error: Error) {
-	app.whenReady().then(() => {
-		dialog.showMessageBoxSync({
-			type: 'error',
-			message: msg,
-			detail: error.stack,
-			title: 'Error',
-		})
-		err_handler(msg, error)
-	})
-}
 process.on('uncaughtException', (error) => {
-	err_handler('Unhandled Error', error)
+	console.error('Unhandled Error', error)
 })
 process.on('unhandledRejection', (error: Error) => {
-	err_handler('Unhandled Promise Rejection', error)
+	console.error('Unhandled Promise Rejection', error)
 })
 
-const app_data = app.getPath('appData')
-const local_data_path = process.env.LOCAL_DATA ? path.resolve(process.env.LOCAL_DATA) : null
-if (is.dev) {
-	const data_path = local_data_path ?? path.join(__dirname, '../../src-native/appdata/local_data')
-	const electron_data_path = path.join(data_path, 'Electron Data')
-	app.setPath('userData', electron_data_path)
-} else {
-	const data_path = local_data_path ?? path.join(app_data, 'space.kasper.ferrum')
-	const electron_data_path = path.join(data_path, 'Electron Data')
-	app.setPath('userData', electron_data_path)
-}
+app.setPath('userData', path.join(__dirname, 'electron_data'))
 
 let quitting = false
 let app_loaded = false
@@ -51,19 +25,13 @@ app.whenReady().then(async () => {
 		height: 1000,
 		minWidth: 850,
 		minHeight: 400,
-		titleBarStyle: is.mac ? 'hidden' : 'default',
 		webPreferences: {
 			contextIsolation: false,
 			nodeIntegration: true,
-			preload: path.resolve(__dirname, './preload.js'),
 		},
 		backgroundColor: '#0D1115',
 		show: false,
 	})
-
-	if (!is.dev) {
-		await init_media_keys(main_window)
-	}
 
 	session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 		callback({
@@ -73,11 +41,6 @@ app.whenReady().then(async () => {
 			},
 		})
 	})
-
-	const vite_dev_server_url = process.env.VITE_DEV_SERVER_URL ?? ''
-	if (is.dev && !vite_dev_server_url) {
-		throw new Error('VITE_DEV_SERVER_URL missing')
-	}
 
 	const web_folder = path.join(path.dirname(__dirname), 'web')
 
@@ -99,13 +62,13 @@ app.whenReady().then(async () => {
 		return net.fetch(file_url)
 	})
 
-	if (is.dev) {
-		main_window.loadURL(new URL(vite_dev_server_url).origin + '/playlist/root')
-	} else {
-		main_window.loadURL('app:/playlist/root')
+	const vite_dev_server_url = process.env.VITE_DEV_SERVER_URL ?? ''
+	if (!vite_dev_server_url) {
+		throw new Error('VITE_DEV_SERVER_URL missing')
 	}
+	main_window.loadURL(new URL(vite_dev_server_url).origin + '/playlist/root')
 
-	if (is.dev) main_window.webContents.openDevTools()
+	main_window.webContents.openDevTools()
 
 	main_window.once('ready-to-show', () => {
 		main_window?.show()
