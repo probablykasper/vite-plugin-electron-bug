@@ -3,7 +3,6 @@ import is from './is'
 
 if (is.dev) app.setName('Ferrum Dev')
 
-import { init_menu_bar } from './menubar'
 import { init_media_keys } from './shortcuts'
 import('./ipc')
 import path from 'path'
