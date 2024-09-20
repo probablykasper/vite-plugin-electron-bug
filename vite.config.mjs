@@ -22,13 +22,6 @@ export default defineConfig({
 		}),
 		electron({
 			entry: './src/electron/main.ts',
-			// onstart({ startup }) {
-			// 	if (process.electronApp) {
-			// 		process.kill(process.electronApp.pid, 'SIGTERM')
-			// 	} else {
-			// 		startup()
-			// 	}
-			// },
 			vite: {
 				build: {
 					outDir: './build/electron',
